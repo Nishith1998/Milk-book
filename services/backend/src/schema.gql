@@ -9,6 +9,7 @@ type UserResponse {
 
 type Query {
   users: [UserResponse!]!
+  user(id: String!): UserResponse!
 }
 
 type Mutation {
@@ -18,4 +19,5 @@ type Mutation {
 input UserInput {
   firstName: String!
   lastName: String!
+  password: String!
 }

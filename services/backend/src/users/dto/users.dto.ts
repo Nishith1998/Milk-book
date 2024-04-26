@@ -17,4 +17,7 @@ export class UserInput {
 
   @Field()
   lastName: string;
+
+  @Field()
+  password: string;
 }

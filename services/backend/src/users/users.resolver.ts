@@ -1,12 +1,15 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { UserInput, UserResponse } from './dto/users.dto';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/guards/auth.guard';
 // import { UpdateUserInput } from './dto/update-user.input';
 
 @Resolver(() => UserResponse)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
+  // @UseGuards(AuthGuard)
   @Mutation(() => UserResponse)
   createUser(@Args('createUserInput') createUserInput: UserInput) {
     return this.usersService.create(createUserInput);
@@ -17,10 +20,10 @@ export class UsersResolver {
     return this.usersService.findAll();
   }
 
-  // @Query(() => User, { name: 'user' })
-  // findOne(@Args('id', { type: () => Int }) id: number) {
-  //   return this.usersService.findOne(id);
-  // }
+  @Query(() => UserResponse, { name: 'user' })
+  findOne(@Args('id', { type: () => String }) id: string) {
+    return this.usersService.findOne(id);
+  }
 
   // @Mutation(() => User)
   // updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
