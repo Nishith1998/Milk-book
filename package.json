@@ -1,0 +1,14 @@
+{
+  "name": "@package-based/source",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {},
+  "private": true,
+  "dependencies": {
+    "yarn": "1.22.22"
+  },
+  "devDependencies": {
+    "@nx/workspace": "18.3.3",
+    "nx": "18.3.3"
+  }
+}
