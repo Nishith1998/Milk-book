@@ -7,19 +7,18 @@ import { UsersService } from 'src/users/users.service';
 export class AuthService {
   constructor(
     private readonly userService: UsersService,
-    private readonly jwtService: JwtService,
+    public jwtService: JwtService,
   ) {}
-  async validateUser(userId: string, pass: string) {
-    const user = await this.userService.findOne(userId);
+  async validateUser(userEmail: string, pass: string) {
+    const user = (await this.userService.findByUserEmail(userEmail));
     if (user.password !== pass) {
       throw new UnauthorizedException();
     }
-    const { password, ...result } = user;
-    return result;
+    return await this.logIn(user);
   }
 
-  async login(user: UserResponse) {
-    const payload = { username: user.firstName, sub: user._id };
-    return { access_token: this.jwtService.sign(payload) };
+  async logIn(user: UserResponse) {
+    const payload = { username: user.firstName, sub: user.id };
+    return { accessToken: this.jwtService.sign(payload) };
   }
 }

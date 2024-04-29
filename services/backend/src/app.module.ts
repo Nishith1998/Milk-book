@@ -7,6 +7,7 @@ import { join } from 'path';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MONGODB_URL } from 'src/config';
 import { UsersModule } from 'src/users/users.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { UsersModule } from 'src/users/users.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     MongooseModule.forRoot(MONGODB_URL),
-    UsersModule
+    UsersModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

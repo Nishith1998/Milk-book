@@ -3,35 +3,25 @@ import { UsersService } from './users.service';
 import { UserInput, UserResponse } from './dto/users.dto';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/auth.guard';
-// import { UpdateUserInput } from './dto/update-user.input';
 
 @Resolver(() => UserResponse)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  // @UseGuards(AuthGuard)
   @Mutation(() => UserResponse)
+  // @UseGuards(AuthGuard)
   createUser(@Args('createUserInput') createUserInput: UserInput) {
     return this.usersService.create(createUserInput);
   }
 
-  @Query(() => [UserResponse], { name: 'users' })
+  @Query(() => [UserResponse], { name: 'users', description: "Protected route" })
+  @UseGuards(AuthGuard)
   findAll() {
     return this.usersService.findAll();
   }
 
   @Query(() => UserResponse, { name: 'user' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.usersService.findOne(id);
+  findOne(@Args('userEmail', { type: () => String }) userEmail: string) {
+    return this.usersService.findByUserEmail(userEmail);
   }
-
-  // @Mutation(() => User)
-  // updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-  //   return this.usersService.update(updateUserInput.id, updateUserInput);
-  // }
-
-  // @Mutation(() => User)
-  // removeUser(@Args('id', { type: () => Int }) id: number) {
-  //   return this.usersService.remove(id);
-  // }
 }
