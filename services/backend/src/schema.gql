@@ -3,13 +3,26 @@
 # ------------------------------------------------------
 
 type UserResponse {
+  id: ID!
   firstName: String!
   lastName: String!
+  email: String!
+}
+
+type SignInResponse {
+  accessToken: String!
 }
 
 type Query {
+  """Protected route"""
   users: [UserResponse!]!
-  user(id: String!): UserResponse!
+  user(userEmail: String!): UserResponse!
+  signIn(creds: SignInInput!): SignInResponse!
+}
+
+input SignInInput {
+  userEmail: String!
+  password: String!
 }
 
 type Mutation {
@@ -19,5 +32,6 @@ type Mutation {
 input UserInput {
   firstName: String!
   lastName: String!
+  email: String!
   password: String!
 }
